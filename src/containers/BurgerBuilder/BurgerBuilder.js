@@ -46,7 +46,9 @@ class BurgerBuilder extends Component {
 
     purchaseContinueHandler = () => {
         this.props.onInitPurchase();
-        this.props.history.push('/checkout');
+        console.log(this.props.history)
+        const { history } = this.props;
+        history.push("/checkout")
     }
 
     render () {
@@ -76,7 +78,7 @@ class BurgerBuilder extends Component {
                 ingredients={this.props.ings}
                 price={this.props.price}
                 purchaseCancelled={this.purchaseCancelHandler}
-                purchaseContinued={this.purchaseContinueHandler} />;
+                purchaseContinued={this.purchaseContinueHandler.bind(this)} />;
         }
         // {salad: true, meat: false, ...}
         return (
