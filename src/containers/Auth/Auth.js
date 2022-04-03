@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
+import { Redirect } from 'react-router-dom'
 
 import Input from '../../components/UI/Input/Input'
 import Button from '../../components/UI/Button/Button'
@@ -84,9 +85,17 @@ class Auth extends Component {
         }
         this.setState({ controls: controlUpdated })
     }
+
+    componentDidMount () {
+        if (!this.props.building && this.props.authPath !== '/') {
+            this.props.setAuthenticatePath()
+        }
+    }
+    
     SubmitHandle=(event) => {
         event.preventDefault()
         this.props.onAuth(this.state.controls.email.value, this.state.controls.password.value, this.state.isSignUp)
+
     }
     switchAuthMoodHandler = (event) => {
         event.preventDefault()
@@ -101,6 +110,10 @@ class Auth extends Component {
                 id: key,
                 config: this.state.controls[key]
             });
+        }
+        let redirectToMain = null
+        if(this.props.isAuth) {
+            redirectToMain = <Redirect to={this.props.authPath} />
         }
         let form = 
         (formElementsArray.map(formElement => (
@@ -123,8 +136,10 @@ class Auth extends Component {
                 <p>{this.props.error.message}</p>
             ) 
         }
+        
         return(
             <div className={classes.Auth}>
+                {redirectToMain}
                 {errorMessage}
             <form onSubmit={this.SubmitHandle}>
                 {form}
@@ -142,13 +157,17 @@ class Auth extends Component {
 const mapStateToProps = state => {
     return {
         loading: state.auth.loading,
-        error: state.auth.error
+        error: state.auth.error,
+        isAuth: state.auth.token !== null,
+        building: state.burgerBuilder.building,
+        authPath: state.auth.setAuthPath
     }
 }
 
 const mapDispatchToProps = dispatch => {
     return {
-        onAuth: (email, password, isSignUp) => dispatch(actions.auth(email, password, isSignUp))
+        onAuth: (email, password, isSignUp) => dispatch(actions.auth(email, password, isSignUp)),
+        setAuthenticatePath: () => dispatch(actions.setAuthenticatePath('/'))
     }
 }
 

@@ -45,9 +45,9 @@ export const auth = (email, password, isSignUp) => {
                 password: password,
                 returnSecureToken: true
             }
-            let url = 'https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyCCsoWy4ST_4b0LyGY5qxdR8Eg5sG3n96I'
+            let url = 'https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyCKwoCHSy6oyOHXE3cahnyACka2dTxduak'
             if (!isSignUp) {
-                url='https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyCCsoWy4ST_4b0LyGY5qxdR8Eg5sG3n96I'
+                url='https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyCKwoCHSy6oyOHXE3cahnyACka2dTxduak'
             }
             axios.post(url, authData )
             .then(response => {
@@ -59,5 +59,12 @@ export const auth = (email, password, isSignUp) => {
                 console.log(err.response)
                 dispatch(authFail(err.response.data.error))
             })
+    }
+}
+
+export const setAuthenticatePath = (path) => {
+    return{
+        type: actionTypes.SET_AUTHENTICATE_PATH,
+        path: path
     }
 }
