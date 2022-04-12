@@ -21,7 +21,6 @@ class BurgerBuilder extends Component {
     }
 
     componentDidMount () {
-        console.log(this.props); 
         this.props.onInitIngredients();
     }
 
@@ -54,7 +53,6 @@ class BurgerBuilder extends Component {
 
     purchaseContinueHandler = () => {
         this.props.onInitPurchase();
-        console.log(this.props.history)
         const { history } = this.props;
         history.push("/checkout")
     }

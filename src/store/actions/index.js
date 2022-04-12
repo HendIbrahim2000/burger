@@ -11,5 +11,6 @@ export {
 export {
     auth,
     authLogout,
-    setAuthenticatePath
+    setAuthenticatePath,
+    checkExpiration
 } from './auth'
